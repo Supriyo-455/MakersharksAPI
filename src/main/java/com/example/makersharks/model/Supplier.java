@@ -1,19 +1,8 @@
 package com.example.makersharks.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
-
-enum SCALE {
-    SMALL,
-    MEDIUM,
-    LARGE
-}
-
-enum SERVICE {
-    MOULDING,
-    PRINTING_3D,
-    CASTING,
-    COATING
-}
 
 public class Supplier {
     private final UUID supplier_id;
@@ -23,7 +12,12 @@ public class Supplier {
     private final SCALE business_nature;
     private final SERVICE manufacturing_processes;
 
-    public Supplier(String company_name, String website, String location, SCALE business_nature, SERVICE manufacturing_processes) {
+    public Supplier(@JsonProperty("company_name") String company_name,
+                    @JsonProperty("website") String website,
+                    @JsonProperty("location") String location,
+                    @JsonProperty("business_nature") SCALE business_nature,
+                    @JsonProperty("manufacturing_processes") SERVICE manufacturing_processes
+    ) {
         this.supplier_id = UUID.randomUUID();
         this.company_name = company_name;
         this.website = website;
