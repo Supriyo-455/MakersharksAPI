@@ -4,7 +4,6 @@ import com.example.makersharks.model.Supplier;
 import com.example.makersharks.util.SupplierGenerator;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository("InMemory")

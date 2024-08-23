@@ -2,11 +2,11 @@ package com.example.makersharks.model;
 
 import java.util.List;
 
-public class ApiResponse<T> {
+public class ApiOutput<T> {
     private int page;
     private List<T> result;
 
-    public ApiResponse(int page, List<T> result) {
+    public ApiOutput(int page, List<T> result) {
         this.page = page;
         this.result = result;
     }
