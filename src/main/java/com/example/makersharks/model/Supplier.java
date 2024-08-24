@@ -1,15 +1,29 @@
 package com.example.makersharks.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;
 
+@Schema(description = "Supplier model information")
 public class Supplier {
+
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "supplier id", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     private final UUID supplier_id;
+
+    @Schema(description = "company name, datatype String")
     private final String company_name;
+
+    @Schema(description = "company website, datatype String")
     private final String website;
+
+    @Schema(description = "company location, datatype String")
     private final String location; // NOTE: city, assuming one supplier_id maps to just one location
+
+    @Schema(description = "company business nature, datatype enum")
     private final SCALE business_nature;
+
+    @Schema(description = "company manufacturing process, datatype enum")
     private final SERVICE manufacturing_processes;
 
     public Supplier(@JsonProperty("company_name") String company_name,

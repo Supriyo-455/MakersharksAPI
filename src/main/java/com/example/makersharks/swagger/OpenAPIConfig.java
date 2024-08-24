@@ -17,18 +17,11 @@ public class OpenAPIConfig {
     @Value("${supriyo.openapi.dev-url}")
     private String devUrl;
 
-    @Value("${supriyo.openapi.prod-url}")
-    private String prodUrl;
-
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
         devServer.setUrl(devUrl);
         devServer.setDescription("Server URL in Development environment");
-
-        Server prodServer = new Server();
-        prodServer.setUrl(prodUrl);
-        prodServer.setDescription("Server URL in Production environment");
 
         Contact contact = new Contact();
         contact.setEmail("paulsupriyo64nk@gmail.com");
@@ -43,6 +36,6 @@ public class OpenAPIConfig {
                 .description("Makersharks is building a search page where buyers can search for manufacturers based on their customised requirements. We're building a proof of concept for the search API.")
                 .license(mitLicense);
 
-        return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+        return new OpenAPI().info(info).servers(List.of(devServer));
     }
 }

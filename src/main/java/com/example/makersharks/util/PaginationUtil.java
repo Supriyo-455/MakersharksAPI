@@ -1,5 +1,7 @@
 package com.example.makersharks.util;
 
+import com.example.makersharks.model.ApiOutput;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,5 +19,13 @@ public class PaginationUtil {
         for (int pageNum = 0; pageNum < numPages;)
             pages.add(list.subList(pageNum * pageSize, Math.min(++pageNum * pageSize, list.size())));
         return pages;
+    }
+
+    public static <T> ApiOutput<T> getPage(int page, int totalResults, List<List<T>> pages) {
+        if(page-1 <= pages.size() && page >= 1) {
+            return new ApiOutput<T>(page, totalResults, pages.get(page-1));
+        }
+
+        return new ApiOutput<T>(page, totalResults, Collections.emptyList(), "page index is out of range!");
     }
 }

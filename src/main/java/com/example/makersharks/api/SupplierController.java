@@ -22,48 +22,46 @@ import java.util.stream.Stream;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Supplier", description = "Supplier APIs")
-@RequestMapping("api/supplier")
 @RestController
 public class SupplierController {
 
     @Autowired
     private SupplierService supplierService;
 
+    @PostMapping("api/supplier")
     @Operation(
             summary = "Add a supplier to the database",
             description = "This will add a supplier in the database. Send the supplier details in the request body.",
-            tags = { "supplier", "post" })
+            tags = { "post" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-    @PostMapping
     public void addSupplier(@RequestBody Supplier supplier) {
         supplierService.addSupplier(supplier);
     }
 
-    @GetMapping
+    @GetMapping("api/supplier")
     @Operation(
             summary = "Get list of suppliers",
             description = "This will give paginated list of all suppliers.",
-            tags = { "supplier", "get" })
+            tags = { "get" })
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ApiOutput.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ApiOutput.class, subTypes = Supplier.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
     public ApiOutput<Supplier> getSuppliers(@RequestParam(required = true, defaultValue = "1") int page) {
         List<List<Supplier>> pages = PaginationUtil.getPages(supplierService.getSuppliers(), 10);
-        return new ApiOutput<>(page, pages.get(page));
+        return PaginationUtil.getPage(page, supplierService.getSuppliers().size(), pages);
     }
 
-    @RequestMapping("query")
-    @GetMapping
+    @PostMapping("api/supplier/query")
     @Operation(
             summary = "Query the suppliers",
             description = "This will give paginated list of all suppliers queried by location, business process and manufacturing process.",
-            tags = { "supplier", "get" })
+            tags = { "post" })
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ApiOutput.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ApiOutput.class, subTypes = Supplier.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
     public ApiOutput<Supplier> filterSupplier(@RequestParam(required = true, defaultValue = "1") int page, @RequestParam(required = false) SCALE businessNature, @RequestParam(required = false) SERVICE manufacturingProcess, @RequestParam(required = false) String location) {
@@ -80,7 +78,8 @@ public class SupplierController {
             supplierStream = supplierStream.filter(supplier -> Objects.equals(supplier.getLocation(), location));
         }
 
-        pages  = PaginationUtil.getPages(supplierStream.toList(), 10);
-        return new ApiOutput<>(page, pages.get(page));
+        List<Supplier> results = supplierStream.toList();
+        pages  = PaginationUtil.getPages(results, 10);
+        return PaginationUtil.getPage(page, results.size(), pages);
     }
 }
