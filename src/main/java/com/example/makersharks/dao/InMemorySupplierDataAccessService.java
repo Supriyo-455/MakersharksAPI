@@ -9,7 +9,7 @@ import java.util.List;
 @Repository("InMemory")
 public class InMemorySupplierDataAccessService implements SupplierDao {
 
-    private List<Supplier> db = SupplierGenerator.generateRandomSuppliers(100);
+    private static List<Supplier> db = SupplierGenerator.generateRandomSuppliers(100);
 
     @Override
     public boolean addSupplier(Supplier supplier) {
