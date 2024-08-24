@@ -43,4 +43,12 @@ class SupplierControllerTest {
         mockMvc.perform(get("/api/supplier"))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void test3_post_suppliers_filter_should_success() throws Exception {
+        mockMvc.perform(post("/api/supplier/query")
+                .contentType("application/json")
+                .queryParam("location", "India"))
+                .andExpect(status().isOk());
+    }
 }

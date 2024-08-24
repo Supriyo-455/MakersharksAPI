@@ -22,7 +22,7 @@ public class PaginationUtil {
     }
 
     public static <T> ApiOutput<T> getPage(int page, int totalResults, List<List<T>> pages) {
-        if(page-1 <= pages.size() && page >= 1) {
+        if(page-1 <= pages.size() && page >= 1 && !pages.isEmpty()) {
             return new ApiOutput<T>(page, totalResults, pages.get(page-1));
         }
 
